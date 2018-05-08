@@ -10,9 +10,6 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-logging.basicConfig(filename='learning-spider.log', level=logging.INFO,
-                    format='%(levelname)s:%(message)s')
-
 HEADERS = {
     'X-Requested-With': 'XMLHttpRequest',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 '
