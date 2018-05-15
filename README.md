@@ -1,5 +1,4 @@
 # Spider_learning
-## Scraping Libraries
 ```
 Requests
 Beautiful soup4
