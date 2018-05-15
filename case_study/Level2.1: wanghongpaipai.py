@@ -1,6 +1,7 @@
 """
 Writen by Ethan
 Spider for dynamic web using selenium
+Add a new terminal term -> the page height limitation
 """
 
 from selenium import webdriver
