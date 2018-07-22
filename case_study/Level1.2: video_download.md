@@ -59,8 +59,8 @@ def get_urls():
     """
     Get all the page urls
     """
-    base_url = 'http://91porn.com/view_video.php?viewkey='
-    page_urls = ['http://91porn.com/v.php?next=watch&page={cnt}'.format(cnt=cnt)
+    base_url = ''
+    page_urls = ['/v.php?next=watch&page={cnt}'.format(cnt=cnt)
                  for cnt in range(1, 2)]
     print("Please wait for second ...")
     img_urls = []
@@ -71,7 +71,7 @@ def get_urls():
             bs = BeautifulSoup(
                 requests.get(page_url, headers=HEADERS, timeout=10).content,
                 'lxml')
-            result = re.findall(r'<a href="http://91porn.com/view_video.php\?viewkey=(.*)&amp;page=.*&amp;'
+            result = re.findall(r'<a href="/view_video.php\?viewkey=(.*)&amp;page=.*&amp;'
                                 r'viewtype=basic&amp;category=.*?">', str(bs))
             img_url = [base_url + url for url in result]
             img_urls.extend(img_url)
