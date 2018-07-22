@@ -15,7 +15,7 @@ HEADERS = {
 }
 
 DIR_PATH = r"E:\mzitu"      # 下载图片保存路径
-base_url = 'https://www.313sp.com/'
+base_url = 'https://www.31300sp.com/'
 
 def get_urls():
     """ 获取 mzitu 网站下所有图的 url
