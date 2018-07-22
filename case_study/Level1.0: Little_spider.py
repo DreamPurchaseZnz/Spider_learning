@@ -24,7 +24,7 @@ DIR_PATH = r"E:\gif"      # 下载图片保存路径
 def get_urls():
     """ 获取 mzitu 网站下所有图的 url
     """
-    page_urls = ['https://www.313sp.com/Html/60/index-{cnt}.html'.format(cnt=cnt)
+    page_urls = [''.format(cnt=cnt)
                  for cnt in range(2, 3)]
     print("Please wait for second ...")
     img_urls = []
@@ -106,6 +106,7 @@ def delete_empty_dir(dir):
 
 
 if __name__ == "__main__":
+    # https://www.313sp.com/Html/60/index-{cnt}.html
     urls = get_urls()
     pool = Pool(processes=cpu_count())
     try:
