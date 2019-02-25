@@ -47,13 +47,12 @@ def check_dir(path, is_restart=False):
         print('The folder named {} is restarted'.format(name))
     print('The folder named {} has existed.'.format(name))
 
-def pickle_load(path_name, use_pd=False):
-    with open(path_name, 'rb') as f:
-        value, name = pickle.load(f)
-    if use_pd:
-        value = pd.DataFrame(value, columns=name)
-    print("pickle named {} has been loaded...".format(name))
-    return value, name
+
+def pickle_load(path_name):
+    with open(path_name, 'rb') as fg:
+        value = pickle.load(fg)
+    print("file has been loaded...")
+    return value
 
 
 def pickle_save(value, name, path_name):
