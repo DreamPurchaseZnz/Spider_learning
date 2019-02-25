@@ -28,7 +28,7 @@ class Jumper:
         return max([int(num) for num in numbers])
 
     def travel(self, represent, max_numbers):
-        urls = [represent.format(num) for num in range(1, max_numbers)]
+        urls = [represent.format(num) for num in range(2, max_numbers)]
         return urls
 
 if __name__ == "__main__":
