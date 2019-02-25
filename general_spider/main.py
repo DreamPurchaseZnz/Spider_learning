@@ -26,12 +26,11 @@ pages_url = jm.travel(represent="https://www.mzitu.com/page/{}/",
                       max_numbers=number)
 
 for page in pages_url:
-    rs = f.screening(url="https://www.mzitu.com/",
+    rs = f.screening(url=page,
                      expression=r"(https://www.mzitu.com/\d+)",
                      pre = "")
-    print(rs)
     for r in rs:
-        path = nm.name(r, expression=r"<title>(.+)</title>")
+        path = nm.name(r)
         pn = make_dir(img_path, path)
 
         pu = jm.get_maximum(r, expression= r + "/(\d+)")
