@@ -16,19 +16,21 @@ class Namer:
                         'Referer': 'http://www.mzitu.com'}
         self.timeout = 10
 
-    def name(self, url,expression):
-        names = []
+    def name(self, url):
+        tl = []
         try:
-            bs = BeautifulSoup(
-                requests.get(url, headers=self.header, timeout=self.timeout).text,
-                "lxml"
-            )
-            names = re.findall(expression, str(bs))
+            source = requests.get(url, headers=self.header, timeout=self.timeout)
+            source.encoding = "utf-8"
+            bs = BeautifulSoup(source.text,"lxml")
+            tl = bs.find("title").get_text()
+            tl = re.sub('[\/:*?"<>|]','-',tl)
         except Exception as e:
             print(e)
-        return names[0]
+        if tl is None:
+            tl = "others"
+        return tl
 
 if __name__ == "__main__":
     d = Namer()
-    name = d.name(url="https://www.mzitu.com/166728", expression=r"<title>(.+)</title>")
+    name = d.name(url="http://xinsijitv99.top/xem2wfcv.html")
     print(name)
