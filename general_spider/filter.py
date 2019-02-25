@@ -30,15 +30,34 @@ class Filter:
         target = []
         for m in mains:
             target.append(pre + m)
-        return set(target)
+        return list(set(target))
 
     def search(self, url):
         img_url = []
         try:
-            img_url = BeautifulSoup(
-                requests.get(url, headers=self.header, timeout=self.timeout).text,
-                "lxml"
-            ).find('div', class_="main-image").find('p').find('a').find('img')['src']
+            source = requests.get(url, headers=self.header, timeout=self.timeout)
+            source.encoding = "utf-8"
+            soup = BeautifulSoup(source.text,"lxml")
+            # print(soup.prettify())
+            # self-defined method
+            tag_set = soup.find("div", class_="xs-details-content text-xs").find_all("img")
+            img_url = [tag["src"] for tag in tag_set]
+            # print(type(soup.find("div",class_="xs-details-content text-xs").find_all("img")[1]))
+        except Exception as e:
+            print(e)
+        return img_url
+
+    def search2(self, url):
+        img_url = []
+        try:
+            source = requests.get(url, headers=self.header, timeout=self.timeout)
+            source.encoding = "utf-8"
+            soup = BeautifulSoup(source.text,"lxml")
+            # print(soup.prettify())
+            # self-defined method
+            tag_set = soup.find("div", class_="context").find("div", id="post_content").find("p").find_all("a")
+            img_url = [tag.find("img")["src"] for tag in tag_set]
+            # print(type(soup.find("div",class_="xs-details-content text-xs").find_all("img")[1]))
         except Exception as e:
             print(e)
         return img_url
@@ -46,12 +65,20 @@ class Filter:
 
 if __name__ == "__main__":
     f = Filter()
-    rs = f.screening(url="https://www.mzitu.com/",
-                     expression=r"(https://www.mzitu.com/\d+)",
-                     pre = "")
+    # rs = f.screening(url="https://www.mzitu.com/",
+    #                  expression=r"(https://www.mzitu.com/\d+)",
+    #                  pre = "")
+    # [print(r) for r in rs]
+    #
+    # rs = f.screening(url="https://www.mzitu.com/60704",
+    #                  expression=r"(https://www.mzitu.com/60704/\d+)",
+    #                  pre = "")
+    # [print(r) for r in rs]
+    """
+    rs = f.search2(url="http://xinsijitv99.top/xem2wfcv.html")
     [print(r) for r in rs]
-
-    rs = f.screening(url="https://www.mzitu.com/60704",
-                     expression=r"(https://www.mzitu.com/60704/\d+)",
+    """
+    rs = f.screening(url="http://xinsijitv99.top/page/2",
+                     expression=r"(http://xinsijitv99.top/\w*?.html)",
                      pre = "")
     [print(r) for r in rs]
