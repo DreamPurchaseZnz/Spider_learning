@@ -23,7 +23,6 @@ class Filter(Accessor):
         img_url = []
         try:
             soup = self.access(url)
-            print(soup.find("div", class_="box pic_text").find("div", class_="novelContent").find("p").find_all("img"))
             tag_set = soup.find("div", class_="box pic_text").\
                 find("div", class_="novelContent").\
                 find("p").\
