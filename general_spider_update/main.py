@@ -7,37 +7,53 @@ from jumper import Jumper
 from filter import Filter
 from downloader import Downloader
 from namer import Namer
-from utils import make_dir
-
+from utils import make_dir, pickle_save, pickle_load
+import pickle
 
 jm = Jumper()
 f = Filter()
 dl = Downloader()
 nm = Namer()
 
-# Presetting
-root_url= "https://www.mzitu.com/"
-img_path = "./pic2"
+############################################ Presetting################################################
+root_url= "http://xinsijitv99.top/"
+img_path = "./pic5"
+_ = make_dir(img_path, "")
 
-# main code
-number = jm.get_maximum(url="https://www.mzitu.com/page/2/",
-                        expression=r"https://www.mzitu.com/page/(\d+)")
-pages_url = jm.travel(represent="https://www.mzitu.com/page/{}/",
+
+############################################## main code##############################################
+number = 8
+pages_url = jm.travel(represent="http://xinsijitv99.top/page/{}",
                       max_numbers=number)
 
+page_content = []
 for page in pages_url:
     rs = f.screening(url=page,
-                     expression=r"(https://www.mzitu.com/\d+)",
+                     expression=r"(http://xinsijitv99.top/\w*?.html)",
                      pre = "")
-    for r in rs:
-        path = nm.name(r)
-        pn = make_dir(img_path, path)
+    page_content.extend(rs)
+pickle_save(value=page_content, name="page_content", path_name=img_path + "/test.pkl")
 
-        pu = jm.get_maximum(r, expression= r + "/(\d+)")
-        pl = jm.travel(represent=r+"/{}", max_numbers=pu)
-        for t, q in enumerate(pl):
-            img = f.search(q)
-            dl.download(img, name="pic_{}".format(t), loc=pn)
+#################### Page/Item ######################################
+
+with open(img_path + "/test.pkl", 'rb') as fg:
+    page_content = pickle.load(fg)
+
+item_content = []
+for r in page_content:
+    folder_name = nm.name(r)
+    urls = f.search(url=r)
+    item_content.append((folder_name, urls))
+pickle_save(value=item_content, name="item_content", path_name=img_path + "/test_item.pkl")
+
+################################# Item/Download #########################
+with open(img_path + "/test_item.pkl", 'rb') as fg:
+    item_content = pickle.load(fg)
+
+for fn, urls in item_content:
+    file_name = make_dir(img_path, fn)
+    for n, img_url in enumerate(urls):
+        dl.download(img_url, name="pic_{}".format(n), loc=file_name)
 
 
 

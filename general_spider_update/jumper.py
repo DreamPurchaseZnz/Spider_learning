@@ -3,25 +3,14 @@
 # Date: 2019-2-23
 # Copyright
 
-from bs4 import BeautifulSoup
-import requests
+from accesser import Accessor
 import re
 
-class Jumper:
-    def __init__(self):
-        self.header = {'X-Requested-With': 'XMLHttpRequest',
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 '
-                        '(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                        'Referer': 'http://www.mzitu.com'}
-        self.timeout = 10
-
+class Jumper(Accessor):
     def get_maximum(self, url, expression):
         numbers = []
         try:
-            bs = BeautifulSoup(
-                requests.get(url, headers=self.header, timeout=self.timeout).text,
-                "lxml"
-            )
+            bs = self.access(url)
             numbers = re.findall(expression, str(bs))
         except Exception as e:
             print(e)

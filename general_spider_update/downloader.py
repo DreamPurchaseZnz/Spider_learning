@@ -2,17 +2,12 @@
 # Place: ZheCheng County
 # Date: 2019-2-23
 # Copyright
+from accesser import Accessor
 import requests
 import os
 import time
 
-class Downloader:
-    def __init__(self):
-        self.header = {'X-Requested-With': 'XMLHttpRequest',
-                       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 '
-                                     '(KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                       'Referer': 'http://www.mzitu.com'}
-
+class Downloader(Accessor):
     def download(self, url, name, loc):
         try:
             time.sleep(0.01)
