@@ -4,6 +4,7 @@
 # Copyright
 import re
 from accesser import Accessor
+import os
 
 class Filter(Accessor):
     def screening(self, url,expression, pre):
@@ -15,15 +16,19 @@ class Filter(Accessor):
 
         target = []
         for m in mains:
-            target.append(pre + m)
+            target.append(pre+ m)
         return list(set(target))
 
     def search(self, url):
         img_url = []
         try:
             soup = self.access(url)
-            tag_set = soup.find("div", class_="context").find("div", id="post_content").find("p").find_all("a")
-            img_url = [tag.find("img")["src"] for tag in tag_set]
+            print(soup.find("div", class_="box pic_text").find("div", class_="novelContent").find("p").find_all("img"))
+            tag_set = soup.find("div", class_="box pic_text").\
+                find("div", class_="novelContent").\
+                find("p").\
+                find_all("img")
+            img_url = [tag["src"] for tag in tag_set]
         except Exception as e:
             print(e)
         return img_url
@@ -31,20 +36,11 @@ class Filter(Accessor):
 
 if __name__ == "__main__":
     f = Filter()
-    # rs = f.screening(url="https://www.mzitu.com/",
-    #                  expression=r"(https://www.mzitu.com/\d+)",
-    #                  pre = "")
+
+    # rs = f.screening(url="http://neikusp.ga/?m=art-type-id-17-pg-2.html",
+    #                  expression=r"(/\?m=art-detail-id-\d+.html)",
+    #                  pre="http://neikusp.ga/")
     # [print(r) for r in rs]
-    #
-    # rs = f.screening(url="https://www.mzitu.com/60704",
-    #                  expression=r"(https://www.mzitu.com/60704/\d+)",
-    #                  pre = "")
-    # [print(r) for r in rs]
-    """
-    rs = f.search2(url="http://xinsijitv99.top/xem2wfcv.html")
-    [print(r) for r in rs]
-    """
-    rs = f.screening(url="http://xinsijitv99.top/page/2",
-                     expression=r"(http://xinsijitv99.top/\w*?.html)",
-                     pre = "")
+
+    rs = f.search(url="http://neikusp.ga/?m=art-detail-id-10636.html")
     [print(r) for r in rs]

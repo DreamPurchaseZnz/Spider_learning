@@ -21,5 +21,5 @@ class Namer(Accessor):
 
 if __name__ == "__main__":
     d = Namer()
-    name = d.name(url="http://xinsijitv99.top/xem2wfcv.html")
+    name = d.name(url="http://neikusp.ga/?m=art-detail-id-10636.html")
     print(name)
