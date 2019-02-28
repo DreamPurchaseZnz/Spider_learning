@@ -9,17 +9,19 @@ from downloader import Downloader
 from namer import Namer
 from utils import make_dir, delete_empty_dir
 import pickle
-
-jm = Jumper()
-f = Filter()
-dl = Downloader()
-nm = Namer()
+from multiprocessing import Pool, cpu_count
+import threading
 
 ############################################ Presetting################################################
 root_url= "http://neikusp.ga/?m=art-type-id-17.html"
 img_path = "./pic"
 _ = make_dir(img_path, "")
 delete_empty_dir(img_path)
+
+jm = Jumper()
+f = Filter()
+nm = Namer()
+dl = Downloader(root_path=img_path)
 
 
 ############################################## main code##############################################
@@ -50,14 +52,14 @@ delete_empty_dir(img_path)
 # print(item_content)
 
 ################################# Item/Download #########################
-
 with open(img_path + "/item.pkl", 'rb') as fg:
     item_content = pickle.load(fg)
 print(item_content)
-for fn, urls in item_content:
-    file_name = make_dir(img_path, fn)
-    for n, img_url in enumerate(urls):
-        dl.download(img_url, name="pic_{}".format(n), loc=file_name)
+lock = threading.Lock()
+
+if __name__ == "__main__":
+    pool = Pool(processes=cpu_count())
+    pool.map(dl.download_urls, item_content)
 
 
 
